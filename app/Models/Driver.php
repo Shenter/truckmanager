@@ -10,8 +10,18 @@ class Driver extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function truck()
+    {
+        return $this->hasOne(Truck::class)->withDefault(null);
+    }
+    public function character()
+    {
+        return $this->hasOne(Character::class);
     }
 }

@@ -47,6 +47,16 @@ class User extends Authenticatable
     }
 
 
+    public function trucks()
+    {
+        return $this->hasMany(Truck::class);
+    }
+    public function drivers()
+    {
+        return $this->hasMany(Driver::class);
+    }
+
+
 
 
 }

@@ -16,6 +16,11 @@ class CreateDriversTable extends Migration
         Schema::create('drivers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->softDeletes();
+            $table->integer('user_id');
+            $table->integer('character_id');
+            $table->integer('skill')->default(0);
+            $table->integer('truck_id')->default(0);
         });
     }
 

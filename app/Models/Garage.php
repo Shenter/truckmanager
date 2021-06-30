@@ -11,7 +11,7 @@ class Garage extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=['user_id'];
-    protected $hidden = ['id','deleted_at'];
+    protected $hidden = ['id','deleted_at','created_at','updated_at'];
 
     public function user()
     {
@@ -23,7 +23,10 @@ class Garage extends Model
         return $this->hasMany(Truck::class);
     }
 
-
+    public function freecells()
+    {
+        return  $this->level - Truck::where(['garage_id'=>$this->id])->count();
+    }
 
 }
 

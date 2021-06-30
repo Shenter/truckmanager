@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Character;
 use App\Models\Driver;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DriverController extends Controller
 {
@@ -14,7 +16,7 @@ class DriverController extends Controller
      */
     public function index()
     {
-        return response()->json(Driver::all());
+        return view('driversShow',['drivers'=>Auth::user()->drivers]);
     }
 
     /**
@@ -25,6 +27,18 @@ class DriverController extends Controller
     public function create()
     {
         //
+    }
+    public function hireCharacter()
+    {
+
+        return view('hireCharacter',['characters'=>Character::all()]);
+
+    }
+    public function confirmHireCharacter()
+    {
+//TODO тут наверное должна быть проверка наличия гаража
+        echo 1;
+
     }
 
     /**

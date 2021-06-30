@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Classes\UserHelper;
 use App\Models\Garage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class GarageController extends Controller
 {
-
+public $userHelper;
 
     public function __construct()
     {
+        $this->userHelper = new UserHelper();
 
 
     }
@@ -25,7 +27,8 @@ class GarageController extends Controller
     {
         $user = Auth::user();
         $garages = Garage::where(['user_id'=>$user->id])->get();
-        return view('garagesshow',['garages'=>$garages]);
+
+        return view('garagesshow',['garages'=>$garages,'userCanBuyGarage'=>$this->userHelper->isEnoughMoneyToBuyGarage()]);
     //    return ( Garage::where(['user_id'=>$user->id])->get()->all());
     }
 
@@ -67,11 +70,7 @@ class GarageController extends Controller
      */
     public function show(Garage $garage)
     {
-        //dd($garage);
-        //echo $garage;
-        //die();
-
-//            response()->json($garage);
+        return view('garageshow',['garage'=>$garage]);
     }
 
     /**
