@@ -54,6 +54,7 @@ class TruckController extends Controller
         //TODO Нужна проверка данных
         $truck = new Truck(['user_id'=>Auth::user()->id]);
         $truck->type = $request->type;
+        $truck->name = $request->name;
         $truck->save();
         $user = Auth::user();
         if($request->type=='1')

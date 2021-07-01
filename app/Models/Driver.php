@@ -10,6 +10,7 @@ class Driver extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    protected $fillable=['user_id','character_id','truck_id'];
 
     public function user()
     {
@@ -18,10 +19,10 @@ class Driver extends Model
 
     public function truck()
     {
-        return $this->hasOne(Truck::class)->withDefault(null);
+        return $this->belongsTo(Truck::class)->withDefault(null);
     }
     public function character()
     {
-        return $this->hasOne(Character::class);
+        return $this->belongsTo(Character::class);
     }
 }

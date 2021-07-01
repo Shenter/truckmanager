@@ -20,6 +20,7 @@ class CreateTrucksTable extends Migration
             $table->integer('garage_id')->default(0);
             $table->integer('user_id')->default(0);
             $table->integer('type')->default(1);
+            $table->string('name')->nullable();
         });
     }
 

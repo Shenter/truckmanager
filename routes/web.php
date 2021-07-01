@@ -40,7 +40,6 @@ Route::middleware(['auth'])->group(function (){
         ['index'=>'trucks.index',
             'create'=>'trucks.create',
             'store'=>'trucks.store',
-            'store'=>'trucks.store',
             'show' =>'truck.show',
         ]
     ]);
@@ -50,6 +49,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('changeGarage','App\Http\Controllers\TruckController@changeGarage')->name('changeGarage');
     Route::get('hire','App\Http\Controllers\DriverController@hireCharacter')->name('hireCharacter');
     Route::post('hire','App\Http\Controllers\DriverController@confirmHireCharacter')->name('confirmHireCharacter');
+    Route::post('assignTruckToDriver','App\Http\Controllers\DriverController@assignTruckToDriver')->name('assignTruckToDriver');
 });
 
 Route::get('seed',function (){

@@ -19,7 +19,7 @@ class Truck extends Model
 
     public function garage()
     {
-        return $this->hasOne(Garage::class)->withDefault(null);
+        return $this->belongsTo(Garage::class)->withDefault(null);
     }
     public function driver()
     {

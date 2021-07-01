@@ -14,10 +14,12 @@
 
                             @csrf
                         <label for="typeSelect">Тип:</label>
-<select name="type" id="typeSelect">
-    <option value="1">Первый тип</option>
-    <option value="2">Второй тип</option>
-</select>
+                        <select name="type" id="typeSelect">
+                            <option value="1">Первый тип</option>
+                            <option value="2">Второй тип</option>
+                        </select>
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" value="Truk #{{rand(1,200)}}">
                             <button type="submit"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" value="Купить">Купить</button>
 
                     @else

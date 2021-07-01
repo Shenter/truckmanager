@@ -19,6 +19,7 @@ class CreateGaragesTable extends Migration
             $table->integer('user_id');
             $table->integer('level')->default(config('garages.first_level_capacity',3));
             $table->softDeletes();
+            $table->string('name');
         });
     }
 

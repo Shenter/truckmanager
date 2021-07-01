@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Classes\UserHelper;
 use App\Models\Character;
 use App\Models\Driver;
+use App\Models\Truck;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class DriverController extends Controller
 {
+
+    public $userHelper;
+    public function __construct()
+    {
+        $this->userHelper = new UserHelper();
+
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,10 +44,29 @@ class DriverController extends Controller
         return view('hireCharacter',['characters'=>Character::all()]);
 
     }
-    public function confirmHireCharacter()
+
+
+
+    public function assignTruckToDriver(Request $request)
+    {//TODO Добавить проверку, наш ли это сотрудник и грузовик+свободны ли они
+        $driver = Driver::findorfail($request->driver_id);
+        $driver->truck_id = $request->truck_id;
+        $driver->save();
+        $user = Auth::user();
+        $trucks = $user->trucks;
+        return back(302);
+            //view('trucksshow',['trucks'=>$trucks,'userCanBuyTruck'=>$this->userHelper->isEnoughMoneyToBuyFirstLevelTruck()]);
+    }
+    public function confirmHireCharacter(Request $request)
     {
-//TODO тут наверное должна быть проверка наличия гаража
-        echo 1;
+//TODO тут наверное должна быть проверка наличия машины и её свободности
+//        dd($request->character_id);
+        if($request->truck_id==null)
+            return back()->withErrors('You do not have trux');
+        $driver = new Driver(['user_id'=>Auth::user()->id,'character_id'=>$request->character_id,'truck_id'=>$request->truck_id]);
+        $driver->save();
+        return view('driversShow',['drivers'=>Auth::user()->drivers]);
+
 
     }
 
@@ -51,6 +80,8 @@ class DriverController extends Controller
     {
         //
     }
+
+
 
     /**
      * Display the specified resource.
