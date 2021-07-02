@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Classes\UserHelper;
 use App\Models\Character;
 use App\Models\Driver;
-use App\Models\Truck;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 
 class DriverController extends Controller
 {
@@ -19,6 +20,9 @@ class DriverController extends Controller
 
 
     }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -65,7 +69,7 @@ class DriverController extends Controller
             return back()->withErrors('You do not have trux');
         $driver = new Driver(['user_id'=>Auth::user()->id,'character_id'=>$request->character_id,'truck_id'=>$request->truck_id]);
         $driver->save();
-        return view('driversShow',['drivers'=>Auth::user()->drivers]);
+        return redirect(route('drivers.index'));
 
 
     }

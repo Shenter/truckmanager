@@ -99,15 +99,22 @@
 
             <!-- body -->
             <div class="w-full p-3">
-                <form action="{{route('assignTruckToDriver')}}" method="POST">
+                <form action="{{route('trucks.store')}}" method="POST">
                     @csrf
-                    <select name="driver_id">
-                        @foreach(Auth::user()->drivers as $driver)
-                            {{--                            {{($truck->driver)}}--}}
-                            @if($driver->truck==null)
+                    <label for="truck_name" >Name</label>
+                    <input type="text" name="truck_name" value="truk #{{rand(1,200)}}">
+                    <label for="type" >Type</label>
+                    <select name="type">
+                        <option value ="1">1</option>
+                        <option value ="2">2</option>
+                    </select>
+                    <select name="garage_id">
+                        @foreach(Auth::user()->garages as $garage)
 
-                                <option value="{{$driver->id}}">
-                                    {{$driver->character->name}}
+                            @if(count($garage->trucks)<$garage->level)
+
+                                <option value="{{$garage->id}}">
+                                    {{$garage->name}}
                                 </option>
                             @endif
                         @endforeach
@@ -175,12 +182,9 @@
 
                             <button onclick="openModal2(true); " class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none">q
                             </button>
-
                     @else
                         <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed">Купить</button>
                     @endif
-
-
                                         <table class="min-w-max w-full table-auto">
                                             <thead>
                                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -188,6 +192,9 @@
                                                 <th class="py-3 px-6 text-left">Client</th>
                                                 <th class="py-3 px-6 text-center">Users</th>
                                                 <th class="py-3 px-6 text-center">Status</th>
+                                                <th class="py-3 px-6 text-center">Груз</th>
+                                                <th class="py-3 px-6 text-center">Прибывает</th>
+                                                <th class="py-3 px-6 text-center">$</th>
                                                 <th class="py-3 px-6 text-center">Actions</th>
                                             </tr>
                                             </thead>
@@ -229,7 +236,64 @@
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-center">
-                                <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">Active</span>
+
+                                    @if($truck->driver!=null)
+                                    @if($truck->driver->hasAJob())
+
+                                        <div class="flex items-center justify-center">
+
+                                        <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
+
+                                   В пути
+                                            </span><img src="{{asset('hasajob.png')}}"   class=" h-6 ">
+                                        </div>
+                                    @else
+                                        @if($truck->driver->searches_a_job)
+                                            <span class="bg-blue-200 text-blue-600 py-1 px-3 rounded-full text-xs">
+                                        Ищет работу
+                                        </span>
+                                        @else
+                                        <span class="bg-yellow-200 text-green-600 py-1 px-3 rounded-full text-xs">
+                                        Отдыхает
+                                        </span>
+                                        @endif
+                                        @endif
+                                        @else
+                                    <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">
+                                   Нет водителя
+                                            </span>
+                                @endif
+                            </td>
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                    @if($truck->driver!=null)
+                                    {{( $truck->driver->job()->name??'')}}
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                    <span class="font-medium">
+                                        @if($truck->driver!=null)
+                                        @if($truck->driver->hasAJob())
+                                            {{date('H:i:s',strtotime($truck->driver->job()->ends_at))}}
+                                        @else
+                                            @endif
+                                        @endif
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                    <span class="font-medium">
+                                        @if($truck->driver!=null)
+                                        @if($truck->driver->hasAJob())
+                                            {{$truck->driver->job()->cost}}
+                                        @else
+                                        @endif
+                                        @endif
+                                    </span>
+                                </div>
                             </td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">

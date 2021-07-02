@@ -51,9 +51,9 @@
                                     @foreach($garage->trucks as $trucks)
 
 
-
+                                        @if($trucks->driver)
                                     <img class="w-6 h-6 rounded-full border-gray-200 border transform hover:scale-125" src="{{asset('characters/'.$trucks->driver->character->avatar)}}"/>
-
+                                        @endif
                                     @endforeach
                                 </div>
                             </td>
@@ -83,6 +83,8 @@
                         </tr>
 
                     @endforeach
+                            </tbody>
+                        </table>
                 </div>
             </div>
         </div>

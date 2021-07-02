@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function (){
     Route::get('hire','App\Http\Controllers\DriverController@hireCharacter')->name('hireCharacter');
     Route::post('hire','App\Http\Controllers\DriverController@confirmHireCharacter')->name('confirmHireCharacter');
     Route::post('assignTruckToDriver','App\Http\Controllers\DriverController@assignTruckToDriver')->name('assignTruckToDriver');
+    Route::post('assignTruckToGarage','App\Http\Controllers\TruckController@assignTruckToGarage')->name('assignTruckToGarage');
 });
 
 Route::get('seed',function (){

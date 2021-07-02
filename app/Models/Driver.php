@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Driver extends Model
 {
@@ -25,4 +26,14 @@ class Driver extends Model
     {
         return $this->belongsTo(Character::class);
     }
+    public function hasAJob()
+    {
+        return DB::table('work_jobs')->where(['is_active'=>true,'driver_id'=>$this->id])->exists();
+    }
+
+    public function job()
+    {
+        return DB::table('work_jobs')->where(['is_active'=>true,'driver_id'=>$this->id])->first();
+    }
+
 }

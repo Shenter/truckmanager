@@ -14,8 +14,8 @@ class Truck extends Model
     use HasFactory;
 
 
-    protected $fillable=['user_id'];
-    protected $hidden = ['id','deleted_at','created_at','updated_at'];
+    protected $fillable=['user_id','garage_id','name','type'];
+    protected $hidden = ['id','deleted_at','created_at','updated_at','garage_id'];
 
     public function garage()
     {

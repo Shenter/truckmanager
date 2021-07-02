@@ -17,6 +17,19 @@ class TruckController extends Controller
 
 
     }
+
+
+
+
+    public function assignTruckToGarage(Request $request)
+    {
+        //Проверка наличия денег на покупку грузовика
+        //Проверка пустости гаража
+
+//        $truck = new Truck(['garage_id'=>$request->garage_id,'user_id'=>Auth::user()->id, 'type'=>$request->type,'name'=>$request->truck_name]);
+//        $truck->save();
+//        return back();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +56,11 @@ class TruckController extends Controller
         ]);
     }
 
+
+
+
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -54,7 +72,8 @@ class TruckController extends Controller
         //TODO Нужна проверка данных
         $truck = new Truck(['user_id'=>Auth::user()->id]);
         $truck->type = $request->type;
-        $truck->name = $request->name;
+        $truck->name = $request->truck_name;
+        $truck->garage_id = $request->garage_id;
         $truck->save();
         $user = Auth::user();
         if($request->type=='1')

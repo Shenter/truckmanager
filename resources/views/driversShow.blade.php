@@ -99,6 +99,9 @@
                             <th class="py-3 px-6 text-left">Client</th>
                             <th class="py-3 px-6 text-center">Users</th>
                             <th class="py-3 px-6 text-center">Status</th>
+                            <th class="py-3 px-6 text-center">Ends At</th>
+                            <th class="py-3 px-6 text-center">$</th>
+                            <th class="py-3 px-6 text-center">Груз</th>
                             <th class="py-3 px-6 text-center">Actions</th>
                         </tr>
                         </thead>
@@ -124,13 +127,57 @@
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-center">
-                                <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-{{--                                    @if(!Auth::user()->drivers->where('character_id','=',$character->id)->count())--}}
-{{--                                        FREE--}}
-{{--                                    @else--}}
-{{--                                    BUSY--}}
-{{--                                    @endif--}}
-                                </span>
+                                @if ($driver->truck!=null)
+                                    @if($driver->hasAJob())
+                                        <div class="flex items-center justify-center">
+                                        <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
+
+                                   В пути
+                                            </span><img src="{{asset('hasajob.png')}}"   class=" h-6 ">
+                                        </div>
+                                    @else
+                                        @if($driver->searches_a_job)
+                                            <span class="bg-blue-200 text-green-600 py-1 px-3 rounded-full text-xs">
+                                                Ищет работу
+                                            </span>
+                                        @else
+                                            <span class="bg-yellow-200 text-green-600 py-1 px-3 rounded-full text-xs">
+                                                Отдыхает
+                                            </span>
+                                        @endif
+                                    @endif
+                                @else
+                                    <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">
+                                        Нет грузовика
+                                    </span>
+                                @endif
+
+                            </td>
+
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                    <span class="font-medium">
+                                        @if($driver->hasAJob())
+                                            {{date('H:i:s',strtotime($driver->job()->ends_at))}}
+                                        @else
+                                        @endif
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                    <span class="font-medium">
+                                        @if($driver->hasAJob())
+                                            {{$driver->job()->cost}}
+                                        @else
+                                        @endif
+                                    </span>
+                                </div>
+                            </td>
+                            <td class="py-3 px-6 text-center">
+                                <div class="flex items-center justify-center">
+                                    {{( $driver->job()->name??'')}}
+                                </div>
                             </td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">

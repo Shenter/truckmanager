@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDriversTable extends Migration
+class CreateWorkJobsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,15 @@ class CreateDriversTable extends Migration
      */
     public function up()
     {
-        Schema::create('drivers', function (Blueprint $table) {
+        Schema::create('work_jobs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->softDeletes();
-            $table->integer('user_id');
-            $table->integer('character_id');
-            $table->integer('skill')->default(0);
-            $table->integer('truck_id')->default(0);
-            $table->integer('job_id')->default(0);
-            $table->boolean('searches_a_job')->default(false);
+            $table->integer('driver_id');
+            $table->boolean('is_active')->default(true);
+            $table->integer('cost')->default(150);
+            $table->dateTime('ends_at');
+            $table->string('name');
         });
     }
 
@@ -33,6 +32,6 @@ class CreateDriversTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('drivers');
+        Schema::dropIfExists('work_jobs');
     }
 }
