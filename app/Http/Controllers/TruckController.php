@@ -70,12 +70,14 @@ class TruckController extends Controller
     public function store(Request $request)
     {
         //TODO Нужна проверка данных
+        $user = Auth::user();
         $truck = new Truck(['user_id'=>Auth::user()->id]);
         $truck->type = $request->type;
         $truck->name = $request->truck_name;
         $truck->garage_id = $request->garage_id;
+        $truck->user_id = $user->id;
         $truck->save();
-        $user = Auth::user();
+
         if($request->type=='1')
         {
             $cost = config('trucks.first_level_cost');

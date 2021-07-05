@@ -21,6 +21,8 @@
 
             <!-- body -->
             <div class="w-full p-3">
+
+                @if(Auth::user()->hasFreeDrivers())
                 <form action="{{route('assignTruckToDriver')}}" method="POST">
                     @csrf
                     <select name="driver_id">
@@ -39,19 +41,27 @@
 
                     <input id="idfield" type="hidden" value="" name="truck_id">
                     <button type="submit">OK</button>
-                </form>
+
+                @else
+                    You do not have free drivers. Go hire them!
+                    <input id="idfield" type="hidden" value="" name="truck_id">
+
+                @endif
+
             </div>
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
-                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none">Save</button>
+                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">Save</button>
                 <button
                     onclick="openModal(false)"
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
                 >Close</button>
-            </div>
-        </div>
 
+            </div>
+
+        </div>
+        </form>
     </div>
 
     <script>
@@ -124,7 +134,7 @@
 
                     <input id="idfield2" type="hidden" value="" name="truck_id">
                     <button type="submit">OK</button>
-                </form>
+
             </div>
 
             <!-- footer -->
@@ -135,8 +145,9 @@
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
                 >Close</button>
             </div>
-        </div>
 
+        </div>
+        </form>
     </div>
 
     <script>
@@ -288,7 +299,7 @@
                                     <span class="font-medium">
                                         @if($truck->driver!=null)
                                         @if($truck->driver->hasAJob())
-                                            {{$truck->driver->job()->cost}}
+                                            {{$truck->driver->job()->cost/100}}
                                         @else
                                         @endif
                                         @endif

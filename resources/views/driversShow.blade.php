@@ -123,7 +123,7 @@
                                     </span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-left"> 
+                            <td class="py-3 px-6 text-left">
                                 <div class="flex items-center">
                                     <span class="font-medium">{{$driver->character->age}}</span>
                                 </div>
@@ -175,7 +175,7 @@
                                 <div class="flex items-center justify-center">
                                     <span class="font-medium">
                                         @if($driver->hasAJob())
-                                            {{$driver->job()->cost}}
+                                            {{$driver->job()->cost/100}}
                                         @else
                                         @endif
                                     </span>

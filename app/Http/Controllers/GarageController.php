@@ -112,4 +112,24 @@ public $userHelper;
     {
         //
     }
+
+
+
+
+    public function upgrade(Garage $garage)
+    {
+        if(!$this->userHelper->isEnoughMoneyToUpdateGarage())
+        {
+            return back()->withErrors(['message'=>'You do not have enough money']);
+        }
+        if($garage->level!=3)
+        {
+            return back()->withErrors(['message'=>'Garage level is alreagy 5']);
+        }
+        $this->userHelper->pay(config('garages.second_level_cost'));
+        $garage->level = 5;
+        $garage->save();
+        return back()->with('success','upgraded');
+
+    }
 }

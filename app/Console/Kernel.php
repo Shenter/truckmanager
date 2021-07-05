@@ -2,9 +2,11 @@
 
 namespace App\Console;
 
+use App\Jobs\CalculateUsersCash;
 use App\Jobs\EarnCash;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\StocksPrices;
 
 class Kernel extends ConsoleKernel
 {
@@ -27,6 +29,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->job(new EarnCash())->everyMinute();
+        $schedule->job(new CalculateUsersCash())->everyMinute();
+        $schedule->job(new StocksPrices)->everyMinute();
     }
 
     /**

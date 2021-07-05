@@ -17,9 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', 'App\Http\Controllers\DashBoardController@show')->middleware(['auth'])->name('dashboard');
 
 Route::middleware(['auth'])->group(function (){
 //    Route::get('drivers','App')
@@ -35,6 +33,10 @@ Route::middleware(['auth'])->group(function (){
         'store'=>'garages.store',
         ]
     ]);
+    Route::prefix('garages')->group(function (){
+        Route::post('{garage}/upgrade','App\Http\Controllers\GarageController@upgrade')->name('upgradeGarage');
+    });
+
 
 
     Route::resource('trucks','App\Http\Controllers\TruckController', ['names'=>
@@ -53,6 +55,22 @@ Route::middleware(['auth'])->group(function (){
     Route::post('assignTruckToDriver','App\Http\Controllers\DriverController@assignTruckToDriver')->name('assignTruckToDriver');
     Route::post('assignTruckToGarage','App\Http\Controllers\TruckController@assignTruckToGarage')->name('assignTruckToGarage');
 });
+
+
+Route::middleware('auth')->get('/stocks', 'App\Http\Controllers\UserStocksController@index' )->name('stocks');
+
+Route::middleware('auth')->get('/stock/{stock}', 'App\Http\Controllers\StockController@show' )->name('stock.show');
+Route::middleware('auth')->get('/market', 'App\Http\Controllers\MarketController@show' )->name('market.show');
+Route::middleware('auth')->get('/stock/{stock}/buy', 'App\Http\Controllers\StockController@buy' )->name('stock.buy');
+Route::middleware('auth')->post('/stock/{stock}/buy', 'App\Http\Controllers\StockController@confirmBuy' )->name('stock.buy.confirm');
+Route::middleware('auth')->get('/stock/{stock}/sell', 'App\Http\Controllers\StockController@sell' )->name('stock.sell');
+Route::middleware('auth')->post('/stock/{stock}/sell', 'App\Http\Controllers\StockController@confirmSell' )->name('stock.sell.confirm');
+
+
+
+
+
+
 
 Route::get('seed',function (){
    $response = \Illuminate\Support\Facades\Http::get('https://randomuser.me/api/?nat=us,fr,gb&results=100');
@@ -74,6 +92,12 @@ Route::get('seed',function (){
    die();
     }
 });
+
+
+
+
+
+
 
 
 
