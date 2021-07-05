@@ -16,13 +16,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('drivers.index')" :active="request()->routeIs('drivers.index')">
-                        {{ __('DRV') }}
+                        Водители
                     </x-nav-link>
                     <x-nav-link :href="route('garages.index')" :active="request()->routeIs('garages.index')">
-                        {{ __('GRG') }}
+                      Гаражи
                     </x-nav-link>
                     <x-nav-link :href="route('trucks.index')" :active="request()->routeIs('trucks.index')">
-                        {{ __('TRX') }}
+                        Грузовики
                     </x-nav-link>
                 </div>
             </div>

@@ -25,7 +25,8 @@ Route::middleware(['auth'])->group(function (){
 //    Route::get('drivers','App')
     Route::resource('drivers','App\Http\Controllers\DriverController', ['names'=>
             ['index'=>'drivers.index',
-            'create'=>''
+            'create'=>'drivers.create',
+            'show'=>'drivers.show'
             ]
             ]);
     Route::resource('garages','App\Http\Controllers\GarageController', ['names'=>

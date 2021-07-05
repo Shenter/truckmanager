@@ -1,7 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
+          <a href="{{route('hireCharacter')}}">
+            <button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" value="Hire">
+              Нанять водителя
+            </button>
+          </a>
         </h2>
     </x-slot>
 
@@ -88,21 +92,20 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{route('hireCharacter')}}"><button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" value="Hire">Hire</button>
-            </a>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <table class="min-w-max w-full table-auto">
                         <thead>
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6 text-left">Project</th>
-                            <th class="py-3 px-6 text-left">Client</th>
-                            <th class="py-3 px-6 text-center">Users</th>
-                            <th class="py-3 px-6 text-center">Status</th>
-                            <th class="py-3 px-6 text-center">Ends At</th>
-                            <th class="py-3 px-6 text-center">$</th>
+                            <th class="py-3 px-6 text-left">Имя</th>
+                            <th class="py-3 px-6 text-left">Возраст</th>
+                            <th class="py-3 px-6 text-center">Грузовик</th>
+                            <th class="py-3 px-6 text-center">Статус</th>
+                            <th class="py-3 px-6 text-center">Время оконачания рейса</th>
+                            <th class="py-3 px-6 text-center">Оплата за заказ</th>
                             <th class="py-3 px-6 text-center">Груз</th>
-                            <th class="py-3 px-6 text-center">Actions</th>
+                            <th class="py-3 px-6 text-center">Действия</th>
                         </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
@@ -113,10 +116,14 @@
                                     <div class="mr-2">
                                         <img src="{{asset('characters/'.$driver->character->avatar)}}" width="50%" class="w-6 h-6 rounded-full">
                                     </div>
-                                    <span class="font-medium">{{$driver->character->name}}</span>
+                                    <span class="font-medium">
+                                      <a href="{{route('drivers.show',['driver'=>$driver->id])}}" class="underline  text-blue-600 hover:text-gray-900">
+                                      {{$driver->character->name}}
+                                    </a>
+                                    </span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-left">
+                            <td class="py-3 px-6 text-left"> 
                                 <div class="flex items-center">
                                     <span class="font-medium">{{$driver->character->age}}</span>
                                 </div>
