@@ -20,10 +20,11 @@
             </div>
 
             <!-- body -->
+            @if(Auth::user()->hasFreeDrivers())
+                <form action="{{route('assignTruckToDriver')}}" method="POST">
             <div class="w-full p-3">
 
-                @if(Auth::user()->hasFreeDrivers())
-                <form action="{{route('assignTruckToDriver')}}" method="POST">
+
                     @csrf
                     <select name="driver_id">
                         @foreach(Auth::user()->drivers as $driver)
@@ -42,13 +43,9 @@
                     <input id="idfield" type="hidden" value="" name="truck_id">
                     <button type="submit">OK</button>
 
-                @else
-                    You do not have free drivers. Go hire them!
-                    <input id="idfield" type="hidden" value="" name="truck_id">
 
-                @endif
 
-            </div>
+
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
@@ -62,6 +59,13 @@
 
         </div>
         </form>
+            @else
+                <div class="w-full p-3">
+                    You do not have free drivers. Go hire them!
+                    <input id="idfield" type="hidden" value="" name="truck_id">
+                </div>
+            @endif
+        </div>
     </div>
 
     <script>
@@ -108,11 +112,20 @@
             </div>
 
             <!-- body -->
-            <div class="w-full p-3">
+            @if(Auth::user()->hasFreeGarages())
                 <form action="{{route('trucks.store')}}" method="POST">
+            <div class="w-full p-3">
+
                     @csrf
                     <label for="truck_name" >Name</label>
-                    <input type="text" name="truck_name" value="truk #{{rand(1,200)}}">
+                    <?php
+                    $truckName = array(
+                        'Mercedes', 'Man', 'Iveco', 'Renault', 'Kamaz'
+                    );
+                    $name = $truckName[array_rand($truckName)];
+
+                    ?>
+                    <input type="text" name="truck_name" value="{{$name}} #{{rand(1,100)}}">
                     <label for="type" >Type</label>
                     <select name="type">
                         <option value ="1">1</option>
@@ -135,21 +148,29 @@
                     <input id="idfield2" type="hidden" value="" name="truck_id">
                     <button type="submit">OK</button>
 
-            </div>
+
+
+
+
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
-                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none">Save</button>
+                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">Save</button>
                 <button
                     onclick="openModal2(false)"
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
                 >Close</button>
             </div>
+            </div>
+                </form>
 
-        </div>
-        </form>
+        @else
+            <div class="w-full p-3">
+                No free garages(
+            </div>
+        @endif
     </div>
-
+    </div>
     <script>
         const modal_overlay2 = document.querySelector('#modal_overlay2');
         const modal2 = document.querySelector('#modal2');
@@ -199,8 +220,8 @@
                                         <table class="min-w-max w-full table-auto">
                                             <thead>
                                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                                <th class="py-3 px-6 text-left">Project</th>
-                                                <th class="py-3 px-6 text-left">Client</th>
+                                                <th class="py-3 px-6 text-left">Название</th>
+                                                <th class="py-3 px-6 text-left">Водитель</th>
                                                 <th class="py-3 px-6 text-center">Users</th>
                                                 <th class="py-3 px-6 text-center">Status</th>
                                                 <th class="py-3 px-6 text-center">Груз</th>
@@ -230,9 +251,7 @@
                                 <div class="flex items-center">
                                     <div class="mr-2">
                                         @if ($truck->driver==null)
-
                                                 <button onclick="openModal(true,{{$truck->id}}); " class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none">
-
                                         @else
 
                                             <img src="{{asset('characters/'.$truck->driver->character->avatar)}}" width="50%" class="w-6 h-6 rounded-full">
@@ -272,7 +291,7 @@
                                         @else
                                     <span class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">
                                    Нет водителя
-                                            </span>
+                                    </span>
                                 @endif
                             </td>
                             <td class="py-3 px-6 text-center">
@@ -287,7 +306,7 @@
                                     <span class="font-medium">
                                         @if($truck->driver!=null)
                                         @if($truck->driver->hasAJob())
-                                            {{date('H:i:s',strtotime($truck->driver->job()->ends_at))}}
+                                            {{date('H:i',strtotime($truck->driver->job()->ends_at))}}
                                         @else
                                             @endif
                                         @endif

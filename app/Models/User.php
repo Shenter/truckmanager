@@ -62,6 +62,19 @@ class User extends Authenticatable
     {
         return count($this->drivers->where('truck_id','=',null));
     }
+
+    public function hasFreeGarages()
+    {
+        foreach ($this->garages as $garage)
+        {
+            if($garage->freecells()>0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function stocks():\Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Stock::class)->wherePivot('deleted_at','=',null)->withPivot('buy_price');
@@ -90,8 +103,8 @@ class User extends Authenticatable
         $cost = round($price*$count* (1 + Stock::$TAX/100) ,2);
         $adminMoney = DB::table('admin_money')->first()->sum + $price*$count* (Stock::$TAX/100);
         DB::table('admin_money')->update(['sum'=>$adminMoney]);
-        $this->money -= $cost;
-        $this->save();
+        $this->pay( $cost);
+        
         for ($i=0;$i<$count;$i++) {
             $stockUser = new StockUser([
                 'created_at' => date('Y-m-d H:i:s', time()),
@@ -115,5 +128,13 @@ class User extends Authenticatable
 
     }
 
+
+
+
+    public function pay($sum)
+    {
+        $this->money -= $sum;
+        $this->save();
+    }
 
 }

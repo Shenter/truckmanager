@@ -62,9 +62,8 @@ public $userHelper;
         $garage->name = 'Гараж в г. '.$random;
 
         $garage->save();
-        $user = Auth::user();
-        $user->money-=config('garages.first_level_cost');
-        $user->save();
+        Auth::user()->pay(config('garages.first_level_cost'));
+//        $user->save();
         return redirect(route('garages.index'));
     }
 
@@ -126,7 +125,7 @@ public $userHelper;
         {
             return back()->withErrors(['message'=>'Garage level is alreagy 5']);
         }
-        $this->userHelper->pay(config('garages.second_level_cost'));
+        Auth::user()->pay(config('garages.second_level_cost'));
         $garage->level = 5;
         $garage->save();
         return back()->with('success','upgraded');

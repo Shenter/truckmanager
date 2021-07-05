@@ -60,9 +60,10 @@ $user = User::find($driver->user_id);
                                 'Песок', 'Щебень', 'Запчасти', 'Холодный квас', 'Стекло', 'Молоко', 'Зеркала', 'Доски', 'Бетон', 'Документы', 'Косметика'
                             );
                             $random = $jobname[array_rand($jobname)];
+
                             $name = $random;
                             $duration = rand(500, 5000);
-                            $cost = round($duration*100 / 2);
+                            $cost = round($duration / 2*($driver->truck->type/1.5));
                             $jobID = DB::table('work_jobs')->insertGetId([
                                 'driver_id' => $driver->id,
                                 'ends_at' => date('Y-m-d H:i:00', time() + $duration),

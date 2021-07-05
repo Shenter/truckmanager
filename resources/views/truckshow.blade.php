@@ -13,7 +13,8 @@
                     TYPE = {{$truck->type}}
 
 
-                    <button onclick="document.getElementById('changeGarageForm').hidden=false;">@if($truck->garage_id==0)
+                    <button onclick="document.getElementById('changeGarageForm').hidden=false;">
+                        @if($truck->garage_id==0)
                             Назначить
                         @else
                             Поменять

@@ -25,12 +25,7 @@ class UserHelper
     {
         return Auth::user()->money >=config('trucks.first_level_cost');
     }
-    public function pay($sum)
-    {
-        $user = Auth::user();
-        $user->money -= $sum*100;
-        $user->save();
-    }
+
 
 
 }
