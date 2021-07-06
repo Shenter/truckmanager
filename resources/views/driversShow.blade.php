@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+
           <a href="{{route('hireCharacter')}}">
             <button  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded" value="Hire">
               Нанять водителя
             </button>
           </a>
-        </h2>
+
     </x-slot>
 
     <div id="modal_overlay" class="hidden absolute inset-0 bg-black bg-opacity-30 h-screen w-full flex justify-center items-start md:items-center pt-10 md:pt-0">
@@ -27,9 +27,10 @@
             </div>
 
             <!-- body -->
+            <form action="{{route('assignTruckToDriver')}}" method="POST">
             <div class="w-full p-3">
 
-    <form action="{{route('assignTruckToDriver')}}" method="POST">
+
         @csrf
         <select name="truck_id">
             @foreach(Auth::user()->trucks as $truck)
@@ -47,17 +48,21 @@
 
         <input id="idfield" type="hidden" value="" name="driver_id">
         <button type="submit">OK</button>
-    </form>
+
             </div>
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
-                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none">Save</button>
+                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">
+                    Save
+                </button>
                 <button
                     onclick="openModal(false)"
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
-                >Close</button>
+                >Close
+                </button>
             </div>
+            </form>
         </div>
 
     </div>
@@ -102,8 +107,8 @@
                             <th class="py-3 px-6 text-left">Возраст</th>
                             <th class="py-3 px-6 text-center">Грузовик</th>
                             <th class="py-3 px-6 text-center">Статус</th>
-                            <th class="py-3 px-6 text-center">Время оконачания рейса</th>
-                            <th class="py-3 px-6 text-center">Оплата за заказ</th>
+                            <th class="py-3 px-6 text-center">Оконачание рейса</th>
+                            <th class="py-3 px-6 text-center">Оплата</th>
                             <th class="py-3 px-6 text-center">Груз</th>
                             <th class="py-3 px-6 text-center">Действия</th>
                         </tr>

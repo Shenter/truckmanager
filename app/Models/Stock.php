@@ -28,16 +28,23 @@ class Stock extends Model
 
     public function getDailyChange()
     {
-        return
-            round(
-                StockHistory::whereDate('created_at',Carbon::today())
-                    ->where('stock_id','=',$this->id)
-                    ->oldest()
-                    ->first()
-                    ->sum/
-                $this->getLatestPrice()
-                -1,3)*100;
+        if (StockHistory::whereDate('created_at', Carbon::today())
+            ->where('stock_id', '=', $this->id)->exists()) {
+            return
+                round(
+                    StockHistory::whereDate('created_at', Carbon::today())
+                        ->where('stock_id', '=', $this->id)
+                        ->oldest()
+                        ->first()
+                        ->sum /
+                    $this->getLatestPrice()
+                    - 1, 3) * 100;
+        }
+        else {
+            return 0;
+        }
     }
+
 
 
 

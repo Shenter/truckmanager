@@ -6,6 +6,7 @@ use App\Http\Classes\UserHelper;
 use App\Models\Garage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class GarageController extends Controller
 {
@@ -63,7 +64,6 @@ public $userHelper;
 
         $garage->save();
         Auth::user()->pay(config('garages.first_level_cost'));
-//        $user->save();
         return redirect(route('garages.index'));
     }
 
@@ -109,7 +109,24 @@ public $userHelper;
      */
     public function destroy(Garage $garage)
     {
-        //
+        if ($garage->user_id!=Auth::user()->id)
+        {
+            return back()->withErrors(['message'=>'This garage is not yours']);
+        }
+        if($garage->level==3)
+        {
+            Auth::user()->addMoney(config('garages.first_level_sell_price'));
+        }
+        else
+        {
+            Auth::user()->addMoney(config('garages.second_level_sell_price'));
+        }
+        foreach ($garage->trucks as $truck)
+        {
+            DB::table('work_jobs')->where(['is_active'=>true,'driver_id'=>$truck->driver->id])->update(['is_active'=>false]);
+        }
+        $garage->delete();
+        return redirect(route('garages.index'))->with(['success'=>'Гараж продан!']);
     }
 
 

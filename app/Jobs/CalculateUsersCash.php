@@ -34,6 +34,7 @@ class CalculateUsersCash implements ShouldQueue
     public function handle()
     {
         $users = User::all();
+        logger('count '. count($users));
         foreach ($users as $user) {
             $money=0;
             foreach ($user->stocks as $stock)

@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
+
+/**
+ * Class Driver
+ * mixin \Eloquent
+ *
+ */
 class Driver extends Model
 {
     use HasFactory;

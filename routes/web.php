@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function (){
         ['index'=>'garages.index',
         'create'=>'garages.create',
         'store'=>'garages.store',
+        'destroy'=>'garages.destroy',
         ]
     ]);
     Route::prefix('garages')->group(function (){
@@ -44,6 +45,7 @@ Route::middleware(['auth'])->group(function (){
             'create'=>'trucks.create',
             'store'=>'trucks.store',
             'show' =>'truck.show',
+            'destroy'=>'truck.destroy',
         ]
     ]);
 
@@ -54,6 +56,8 @@ Route::middleware(['auth'])->group(function (){
     Route::post('hire','App\Http\Controllers\DriverController@confirmHireCharacter')->name('confirmHireCharacter');
     Route::post('assignTruckToDriver','App\Http\Controllers\DriverController@assignTruckToDriver')->name('assignTruckToDriver');
     Route::post('assignTruckToGarage','App\Http\Controllers\TruckController@assignTruckToGarage')->name('assignTruckToGarage');
+    Route::get('orders','App\Http\Controllers\OrdersController@show')->name('orders');
+    Route::get('top','App\Http\Controllers\Statistics@top')->name('top');
 });
 
 

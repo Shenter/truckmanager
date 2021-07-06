@@ -92,7 +92,6 @@ class StocksPrices implements ShouldQueue
               {
                 $change =0;
               }
-            logger('Change = '.$change);
             DB::table('stock_histories')->insert([
                 'id'=>null,
                 'created_at'=>date('Y-m-d H:i:s'),
@@ -118,6 +117,6 @@ class StocksPrices implements ShouldQueue
             //Надо добавить падение после дивидендов
             echo $direction;
         }
-        dispatch(new CalculateUsersCash());
+//        dispatch(new CalculateUsersCash());
     }
 }

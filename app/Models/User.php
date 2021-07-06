@@ -43,6 +43,13 @@ class User extends Authenticatable
     ];
 
 
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+      //  return $this->hasMany(Order::class);
+    }
+
     public function garages()
     {
         return $this->hasMany(Garage::class);
@@ -104,7 +111,7 @@ class User extends Authenticatable
         $adminMoney = DB::table('admin_money')->first()->sum + $price*$count* (Stock::$TAX/100);
         DB::table('admin_money')->update(['sum'=>$adminMoney]);
         $this->pay( $cost);
-        
+
         for ($i=0;$i<$count;$i++) {
             $stockUser = new StockUser([
                 'created_at' => date('Y-m-d H:i:s', time()),
@@ -134,6 +141,11 @@ class User extends Authenticatable
     public function pay($sum)
     {
         $this->money -= $sum;
+        $this->save();
+    }
+    public function addMoney($sum)
+    {
+        $this->money += $sum;
         $this->save();
     }
 

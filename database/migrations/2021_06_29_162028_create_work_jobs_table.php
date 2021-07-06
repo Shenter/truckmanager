@@ -22,6 +22,7 @@ class CreateWorkJobsTable extends Migration
             $table->integer('cost')->default(150);
             $table->dateTime('ends_at');
             $table->string('name');
+            $table->integer('user_id');
         });
     }
 

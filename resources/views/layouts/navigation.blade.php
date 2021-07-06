@@ -23,12 +23,19 @@
                     <x-nav-link :href="route('trucks.index')" :active="request()->routeIs('trucks.index')">
                         Грузовики
                     </x-nav-link>
+                    <x-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
+                        Заказы
+                    </x-nav-link>
                    <hr>
                     <x-nav-link :href="route('stocks')" :active="request()->routeIs('stocks')">
                         {{ __('Мои акции') }}
                     </x-nav-link>
                     <x-nav-link :href="route('market.show')" :active="request()->routeIs('market.show')">
                         {{ __('Рынок') }}
+                    </x-nav-link>
+                    <hr>
+                    <x-nav-link :href="route('top')" :active="request()->routeIs('top')">
+                        {{ __('Топ игроков') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -84,12 +91,15 @@
             <x-responsive-nav-link :href="route('drivers.index')" :active="request()->routeIs('drivers.index')">
                 {{ __('Водители') }}
             </x-responsive-nav-link>
-                <x-responsive-nav-link  :href="route('garages.index')" :active="request()->routeIs('garages.index')">
+            <x-responsive-nav-link  :href="route('garages.index')" :active="request()->routeIs('garages.index')">
                 {{ __('Гаражи') }}
-                </x-responsive-nav-link>
-                    <x-responsive-nav-link  :href="route('trucks.index')" :active="request()->routeIs('trucks.index')">
+            </x-responsive-nav-link>
+                <x-responsive-nav-link  :href="route('trucks.index')" :active="request()->routeIs('trucks.index')">
                 {{ __('Грузовики') }}
-                    </x-responsive-nav-link>
+            </x-responsive-nav-link>
+            <x-responsive-nav-link  :href="route('orders')" :active="request()->routeIs('orders')">
+                {{ __('Заказы') }}
+            </x-responsive-nav-link>
                         <x-responsive-nav-link  :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Мои финансы') }}
                         </x-responsive-nav-link>

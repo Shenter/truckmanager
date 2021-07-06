@@ -24,7 +24,7 @@ class StockController extends Controller
 
     public function buy($id)
         {
-            $stock = Stock::findorfail($id);
+           $stock = Stock::findorfail($id);
            return view('buystock',['stock'=>$stock, 'howManyStocksCanBuy'=> Auth::user()->howManyStocksCanBuy($id)]);
         }
 

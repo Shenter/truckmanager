@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Driver;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -36,49 +37,56 @@ class EarnCash implements ShouldQueue
         logger('handle');
 
         //Все работы, время окончания которых меньше, чем текущее, становятся выполненными и за них начисляются деньги
-        $jobs = DB::table('work_jobs')->where('is_active',true)->where('ends_at','<=',date('Y-m-d H:i:s'))->get();
+        $jobs = Order::where('is_active',true)->where('ends_at','<=',date('Y-m-d H:i:s'))->get();
         foreach ($jobs as $job) {
-logger('found finished job');
-$driver= Driver::find($job->driver_id);
-$user = User::find($driver->user_id);
+        logger('found finished job');
+        $driver= Driver::find($job->driver_id);
+        $user = User::find($driver->user_id);
             $user->money+=$job->cost;
             $user->save();
-            DB::table('work_jobs')->where('id','=',$job->id)->update(['is_active'=>false]);
-//            $job->is_active = false;
-//            $job->save();
+            $job->is_active = false;
+//            DB::table('work_jobs')->where('id','=',$job->id)->update(['is_active'=>false]);
+            $job->save();
             $driver->job_id=0;
             $driver->save();
         }
-        //Все водители без работы и с грузовиком выходят на работу (можно добавить вероятность выхода в зависмости от скилла)
+        //Все водители без работы, с гаражом и грузовиком выходят на работу
         $drivers = Driver::where('job_id','=',0)->get();
         foreach ($drivers as $driver) {
-            if($driver->truck!=null)
+
+            if($driver->truck!=null && $driver->truck->garage!=null)
             {
                     if($driver->searches_a_job) {
-                        if (rand(1, 10) < 3) {
-                            $jobname = array(
-                                'Песок', 'Щебень', 'Запчасти', 'Холодный квас', 'Стекло', 'Молоко', 'Зеркала', 'Доски', 'Бетон', 'Документы', 'Косметика'
+                        if (rand(1, 200) < $driver->character->age) {
+                            $jobName = array(
+                                'Песок', 'Щебень', 'Запчасти', 'Холодный квас', 'Стекло', 'Молоко', 'Зеркала', 'Доски', 'Бетон', 'Документы', 'Косметика', 'Компьютеры'
                             );
-                            $random = $jobname[array_rand($jobname)];
-
+                            $random = $jobName[array_rand($jobName)];
                             $name = $random;
-                            $duration = rand(500, 5000);
-                            $cost = round($duration / 2*($driver->truck->type/1.5));
-                            $jobID = DB::table('work_jobs')->insertGetId([
-                                'driver_id' => $driver->id,
+                            $duration = rand(200, 1000);
+                            $cost = round($duration *  ($driver->truck->type/1.5)  *25);
+                            $job = new Order([ 'driver_id' => $driver->id,
+                                'user_id'=>$driver->user_id,
                                 'ends_at' => date('Y-m-d H:i:00', time() + $duration),
                                 'name' => $name,
-                                'cost' => $cost,
-                            ]);
-                            $driver->job_id = $jobID;
+                                'cost' => $cost]);
+                            $job->save();
+//                                DB::table('work_jobs')->insertGetId([
+//                                'driver_id' => $driver->id,
+//                                'user_id'=>$driver->user_id,
+//                                'ends_at' => date('Y-m-d H:i:00', time() + $duration),
+//                                'name' => $name,
+//                                'cost' => $cost,
+//                            ]);
+                            $driver->job_id = $job->id;
                             $driver->save();
                         }
                     }
                     else
                     {
-                        if(rand(1,10)<5)
+                        if(rand(1,10)<3)
                         {
-                            $driver->searches_a_job=true;
+                            $driver->searches_a_job = true;
                             $driver->save();
                         }
                     }
