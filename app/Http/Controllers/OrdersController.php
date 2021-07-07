@@ -11,6 +11,6 @@ class OrdersController extends Controller
     public function show()
     {
 
-        return view('orders',['orders'=>Order::where(['user_id'=>Auth::user()->id]) ->get() ]) ;
+        return view('orders',['orders'=>Order::where(['user_id'=>Auth::user()->id]) ->paginate() ]) ;
     }
 }

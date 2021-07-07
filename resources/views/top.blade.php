@@ -18,8 +18,8 @@
                         <thead>
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                             <th class="py-3 px-6 text-left">№</th>
-                            <th class="py-3 px-6 text-left">Project</th>
-                            <th class="py-3 px-6 text-left">Client</th>
+                            <th class="py-3 px-6 text-left">Имя</th>
+                            <th class="py-3 px-6 text-left">Заработано</th>
 
                         </tr>
                         </thead>

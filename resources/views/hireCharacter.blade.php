@@ -22,8 +22,9 @@
             </div>
 
             <!-- body -->
+            <form action="{{route('confirmHireCharacter')}}" method="POST">
             <div class="w-full p-3">
-                <form action="{{route('confirmHireCharacter')}}" method="POST">
+
                     @csrf
                     <select name="truck_id">
                     @foreach(Auth::user()->trucks as $truck)
@@ -40,18 +41,19 @@
 
 
                     <input id="idfield" type="hidden" value="" name="character_id">
-                    <button type="submit">OK</button>
-                </form>
+
+
             </div>
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
-                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none">Save</button>
+                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">Save</button>
                 <button
                     onclick="openModal(false)"
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
                 >Close</button>
             </div>
+        </form>
         </div>
 
     </div>
