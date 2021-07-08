@@ -23,11 +23,11 @@
                         <table class="min-w-max w-full table-auto">
                             <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                                <th class="py-3 px-6 text-left">Project</th>
-                                <th class="py-3 px-6 text-left">Client</th>
-                                <th class="py-3 px-6 text-center">Users</th>
-                                <th class="py-3 px-6 text-center">Вместимость</th>
-                                <th class="py-3 px-6 text-center">Actions</th>
+                                <th class="py-3 px-6 text-left">Гараж</th>
+                                <th class="py-3 px-6 text-left">Вместимость</th>
+                                <th class="py-3 px-6 text-center">Свободных мест</th>
+                                <th class="py-3 px-6 text-center">Водители</th>
+                                <th class="py-3 px-6 text-center">Действия</th>
                             </tr>
                             </thead>
                             <tbody class="text-gray-600 text-sm font-light">
@@ -41,26 +41,25 @@
                             <td class="py-3 px-6 text-left">
                                 <div class="flex items-center">
                                     <div class="mr-2">
-                                       free: {{$garage->freecells()}}
+                                        {{$garage->level}}
+
                                     </div>
 
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-center">
-                                <div class="flex items-center justify-center">
-{{--                                    {{dd($garage->trucks)}}--}}
+                                    {{$garage->freecells()}}
 
-                                    @foreach($garage->trucks as $trucks)
-
-
-                                        @if($trucks->driver)
-                                    <img class="w-6 h-6 rounded-full border-gray-200 border transform hover:scale-125" src="{{asset('characters/'.$trucks->driver->character->avatar)}}"/>
-                                        @endif
-                                    @endforeach
-                                </div>
                             </td>
+
                             <td class="py-3 px-6 text-center">
-                                {{$garage->level}}
+                                <div class="flex items-center justify-center">
+                                @foreach($garage->trucks as $trucks)
+                                    @if($trucks->driver)
+                                        <img class="w-6 h-6 rounded-full border-gray-200 border transform hover:scale-125" src="{{asset('characters/'.$trucks->driver->character->avatar)}}"/>
+                                    @endif
+                                @endforeach
+                                </div>
                             </td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">

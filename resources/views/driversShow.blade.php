@@ -10,7 +10,6 @@
     </x-slot>
 
     <div id="modal_overlay" class="hidden absolute inset-0 bg-black bg-opacity-30 h-screen w-full flex justify-center items-start md:items-center pt-10 md:pt-0">
-
         <!-- modal -->
         <div id="modal" class="opacity-0 transform -translate-y-full scale-150  relative w-10/12 md:w-1/2 h-1/2 md:h-3/4 bg-white rounded shadow-lg transition-opacity transition-transform duration-300">
 
@@ -20,18 +19,20 @@
                 class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-2xl w-10 h-10 rounded-full focus:outline-none text-white">
                 &cross;
             </button>
-
             <!-- header -->
             <div class="px-4 py-3 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-600">Title</h2>
+                <h2 class="text-xl font-semibold text-gray-600">Назначить грузовик водителю</h2>
             </div>
-
             <!-- body -->
             <form action="{{route('assignTruckToDriver')}}" method="POST">
             <div class="w-full p-3">
-
-
         @csrf
+                <table>
+                    <tr>
+                        <td>
+                <label for="truckSelect">Выберите грузовик</label>
+                        </td>
+                        <td>
         <select name="truck_id">
             @foreach(Auth::user()->trucks as $truck)
                 {{--                            {{($truck->driver)}}--}}
@@ -43,24 +44,22 @@
                 @endif
             @endforeach
         </select>
-
-
-
+                        </td>
+                    </tr>
+                </table>
         <input id="idfield" type="hidden" value="" name="driver_id">
-        <button type="submit">OK</button>
-
             </div>
-
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
                 <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">
-                    Save
+                    Сохранить
                 </button>
                 <button
                     onclick="openModal(false)"
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
-                >Close
+                >Отмена
                 </button>
+
             </div>
             </form>
         </div>
@@ -143,7 +142,6 @@
                                     @if($driver->hasAJob())
                                         <div class="flex items-center justify-center">
                                         <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
-
                                    В пути
                                             </span><img src="{{asset('hasajob.png')}}"   class=" h-6 ">
                                         </div>
@@ -199,7 +197,6 @@
                                 </div>
                             </td>
                         </tr>
-{{--                   {{$character->id}};--}}
                     @endforeach
                         </tbody>
                     </table>

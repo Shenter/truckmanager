@@ -8,13 +8,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use App\Http\Classes\DataPreparer;
 
 class TruckController extends Controller
 {
     public $userHelper;
+    public $dataPreparer;
     public function __construct()
     {
         $this->userHelper = new UserHelper();
+        $this->dataPreparer = new DataPreparer();
     }
 
 
@@ -29,10 +32,11 @@ class TruckController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $trucks = $user->trucks;
+        $trucks =$this->dataPreparer->paginate( $user->trucks, 10, null, route('trucks.index'));
 
         return view('trucksshow',['trucks'=>$trucks,'userCanBuyTruck'=>$this->userHelper->isEnoughMoneyToBuyFirstLevelTruck()]);
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -22,15 +22,19 @@
 
             <!-- header -->
             <div class="px-4 py-3 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-600">Title</h2>
+                <h2 class="text-xl font-semibold text-gray-600">Назначить водителя</h2>
             </div>
 
             <!-- body -->
             @if(Auth::user()->hasFreeDrivers())
                 <form action="{{route('assignTruckToDriver')}}" method="POST">
             <div class="w-full p-3">
-
-
+<table>
+<tr>
+    <td>
+        <label for="driverSelect">Водитель:</label>
+    </td>
+    <td>
                     @csrf
                     <select name="driver_id">
                         @foreach(Auth::user()->drivers as $driver)
@@ -43,11 +47,12 @@
                             @endif
                         @endforeach
                     </select>
+    </td>
 
-
+</tr>
 
                     <input id="idfield" type="hidden" value="" name="truck_id">
-                    <button type="submit">OK</button>
+</table>
 
 
 
@@ -55,11 +60,11 @@
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
-                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">Save</button>
+                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">ОК</button>
                 <button
                     onclick="openModal(false)"
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
-                >Close</button>
+                >Отмена</button>
 
             </div>
 
@@ -67,7 +72,7 @@
         </form>
             @else
                 <div class="w-full p-3">
-                    You do not have free drivers. Go hire them!
+                    У вас нет свободных водителей. Сперва <a href="{{route('hireCharacter')}}" class="underline  text-blue-600 hover:text-gray-900">наймите</a> их
                     <input id="idfield" type="hidden" value="" name="truck_id">
                 </div>
             @endif
@@ -114,30 +119,48 @@
 
             <!-- header -->
             <div class="px-4 py-3 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-600">Title</h2>
+                <h2 class="text-xl font-semibold text-gray-600">Покупка грузовика</h2>
             </div>
 
             <!-- body -->
             @if(Auth::user()->hasFreeGarages())
                 <form action="{{route('trucks.store')}}" method="POST">
             <div class="w-full p-3">
+<table>
+
 
                     @csrf
-                    <label for="truck_name" >Name</label>
+    <tr>
+        <td>
+                    <label for="truck_name" >Название грузовика:</label>
                     <?php
                     $truckName = array(
                         'Mercedes', 'Man', 'Iveco', 'Renault', 'Kamaz'
                     );
                     $name = $truckName[array_rand($truckName)];
-
                     ?>
-                    <input type="text" name="truck_name" value="{{$name}} #{{rand(1,100)}}">
-                    <label for="type" >Type</label>
+        </td>
+        <td>
+                    <input type="text" name="truck_name" value="{{$name}} #{{rand(1,100)}}"><br>
+        </td>
+    </tr>
+<tr>
+        <td>
+                    <label for="type" >Тип грузовика</label>
+        </td>
+    <td>
                     <select name="type">
                         <option value ="1">1</option>
                         <option value ="2">2</option>
                     </select>
-                    <select name="garage_id">
+        </td>
+    </tr>
+    <tr>
+        <td>
+                <label for="buyGarageSelect2">Выберите гараж:</label>
+        </td>
+        <td>
+                    <select name="garage_id" id="buyGarageSelect2">
                         @foreach(Auth::user()->garages as $garage)
 
                             @if(count($garage->trucks)<$garage->level)
@@ -148,31 +171,28 @@
                             @endif
                         @endforeach
                     </select>
-
+        </td>
+    </tr>
 
 
                     <input id="idfield2" type="hidden" value="" name="truck_id">
-                    <button type="submit">OK</button>
-
-
-
-
 
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
-                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">Save</button>
+                <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">Купить</button>
                 <button
                     onclick="openModal2(false)"
                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
-                >Close</button>
+                >Отмена</button>
             </div>
+    </table>
             </div>
                 </form>
 
         @else
             <div class="w-full p-3">
-                No free garages(
+                У вас нет свободных мест в гаражах. <a href="{{route('garages.index')}}" class="underline  text-blue-600 hover:text-gray-900">Модернизируйте существующий или купите новый</a>
             </div>
         @endif
     </div>
@@ -224,7 +244,7 @@
 
             <!-- header -->
             <div class="px-4 py-3 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-600">Title</h2>
+                <h2 class="text-xl font-semibold text-gray-600">Назначить гараж</h2>
             </div>
 
             <!-- body -->
@@ -233,8 +253,8 @@
                     <div class="w-full p-3">
 
                         @csrf
-
-                        <select name="garage_id">
+                        <label for="garageSelect3">Выберите гараж:</label>
+                        <select name="garage_id" id="garageSelect3">
                             @foreach(Auth::user()->garages as $garage)
 
                                 @if(count($garage->trucks)<$garage->level)
@@ -249,20 +269,16 @@
 
 
                         <input id="idfield3" type="hidden" value="" name="truck_id">
-                        <button type="submit">OK</button>
-
-
-
 
 
 
                         <!-- footer -->
                         <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">
-                            <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">Save</button>
+                            <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none" type="submit">OK</button>
                             <button
                                 onclick="openModal3(false)"
                                 class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none"
-                            >Close</button>
+                            >Отмена</button>
                         </div>
                     </div>
                 </form>
@@ -270,7 +286,7 @@
             @else
                 <div class="w-full p-3">
                     <input id="idfield3" type="hidden" value="" name="truck_id">
-                    No free garages(
+                    У вас нет свободных мест в гаражах. <a href="{{route('garages.index')}}" class="underline  text-blue-600 hover:text-gray-900">Модернизируйте существующий или купите новый</a>
                 </div>
             @endif
         </div>
@@ -306,14 +322,6 @@
 
 
 
-
-
-
-
-
-
-
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -333,7 +341,7 @@
                                             </tr>
                                             </thead>
                                             <tbody class="text-gray-600 text-sm font-light">
-                    @foreach($trucks as $truck)
+                    @foreach( ($trucks) as $truck)
 
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
                             <td class="py-3 px-6 text-left whitespace-nowrap">
@@ -359,7 +367,6 @@
                                             <img src="{{asset('characters/'.$truck->driver->character->avatar)}}" width="50%" class="w-6 h-6 rounded-full">
                                         @endif
                                     </div>
-
                                 </div>
                             </td>
                             <td class="py-3 px-6 text-center">
@@ -464,7 +471,7 @@
                     @endforeach
                     </tbody>
                 </table>
-
+                    {{$trucks->links()}}
 
 
 
