@@ -2,6 +2,7 @@
     <x-slot name="header">
 
           @if($userCanBuyGarage)
+              Стоимость покупки гаража - {{config('garages.first_level_cost') /100}}$
               <form action="{{route('garages.store')}}" method="post">
                   @csrf
 

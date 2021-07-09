@@ -176,7 +176,9 @@
 
 
                     <input id="idfield2" type="hidden" value="" name="truck_id">
-
+Стоимость покупки грузовика 1 уровня - {{config('trucks.first_level_cost')/100 }}$<br>
+Стоимость покупки грузовика 2 уровня - {{config('trucks.second_level_cost')/100}}$<br><br>
+<hr><br>
 
             <!-- footer -->
             <div class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-end items-center gap-3">

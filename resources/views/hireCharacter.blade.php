@@ -18,7 +18,7 @@
 
             <!-- header -->
             <div class="px-4 py-3 border-b border-gray-200">
-                <h2 class="text-xl font-semibold text-gray-600">Title</h2>
+                <h2 class="text-xl font-semibold text-gray-600">Нанять водителя</h2>
             </div>
 
             <!-- body -->
@@ -26,7 +26,8 @@
             <div class="w-full p-3">
 
                     @csrf
-                    <select name="truck_id">
+                <label for="hireSelect">Выберите грузовик для водителя</label>
+                    <select name="truck_id" id="hireSelect">
                     @foreach(Auth::user()->trucks as $truck)
                             {{($truck->driver)}}
                         @if($truck->driver==null)
@@ -98,11 +99,10 @@
                     <table class="min-w-max w-full table-auto">
                         <thead>
                         <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-3 px-6 text-left">Project</th>
-                            <th class="py-3 px-6 text-left">Client</th>
-                            <th class="py-3 px-6 text-center">Users</th>
-                            <th class="py-3 px-6 text-center">Status</th>
-                            <th class="py-3 px-6 text-center">Actions</th>
+                            <th class="py-3 px-6 text-left">Имя</th>
+                            <th class="py-3 px-6 text-left">Возраст</th>
+                            <th class="py-3 px-6 text-center">Статус</th>
+                            <th class="py-3 px-6 text-center">Действия</th>
                         </tr>
                         </thead>
                         <tbody class="text-gray-600 text-sm font-light">
@@ -121,35 +121,26 @@
                                     <span>{{$character->age}}</span>
                                 </div>
                             </td>
-                            <td class="py-3 px-6 text-center">
-                                <div class="flex items-center justify-center">
-                                    0
-                                </div>
-                            </td>
+
                             <td class="py-3 px-6 text-center">
                                 <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
                                     @if(!Auth::user()->drivers->where('character_id','=',$character->id)->count())
-                                        FREE
+                                        Свободен
                                     @else
-                                    BUSY
+                                    Занят
                                     @endif
                                 </span>
                             </td>
                             <td class="py-3 px-6 text-center">
                                 <div class="flex item-center justify-center">
                                     @if(!Auth::user()->drivers->where('character_id','=',$character->id)->count())
-{{--                                    <form action="{{route('confirmHireCharacter')}}" method="POST">--}}
                                         <button onclick="openModal(true,{{$character->id}}); " class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none">
-                                            Open Modal
+                                            Нанять
                                         </button>
-{{--                                    </form>--}}
                                     @endif
                                 </div>
-
                             </td>
-
                         </tr>
-{{--                   {{$character->id}};--}}
                     @endforeach
                         </tbody>
                     </table>
