@@ -60,49 +60,4 @@ Route::middleware(['auth'])->group(function (){
     Route::get('top','App\Http\Controllers\Statistics@top')->name('top');
 });
 
-
-Route::middleware('auth')->get('/stocks', 'App\Http\Controllers\UserStocksController@index' )->name('stocks');
-
-Route::middleware('auth')->get('/stock/{stock}', 'App\Http\Controllers\StockController@show' )->name('stock.show');
-Route::middleware('auth')->get('/market', 'App\Http\Controllers\MarketController@show' )->name('market.show');
-Route::middleware('auth')->get('/stock/{stock}/buy', 'App\Http\Controllers\StockController@buy' )->name('stock.buy');
-Route::middleware('auth')->post('/stock/{stock}/buy', 'App\Http\Controllers\StockController@confirmBuy' )->name('stock.buy.confirm');
-Route::middleware('auth')->get('/stock/{stock}/sell', 'App\Http\Controllers\StockController@sell' )->name('stock.sell');
-Route::middleware('auth')->post('/stock/{stock}/sell', 'App\Http\Controllers\StockController@confirmSell' )->name('stock.sell.confirm');
-
-
-
-
-
-
-
-Route::get('seed',function (){
-   $response = \Illuminate\Support\Facades\Http::get('https://randomuser.me/api/?nat=us,fr,gb&results=100');
-   $result1 = json_decode($response->body());
-    foreach ($result1 as $result) {
-   foreach ($result as $item)
-   {
-
-       $picture = $item->picture->medium;
-
-       $expname = explode ("/", $picture);
-       $lastV =  end($expname);
-//       $lastV =  pos($expname);
-        $file = \Illuminate\Support\Facades\Http::get($picture);
-        \Illuminate\Support\Facades\Storage::put($lastV,$file);
-
-       \Illuminate\Support\Facades\DB::table('characters')->insert(['id'=>null, 'name'=>$item->name->first.' '.$item->name->last, 'age'=>$item->dob->age,'avatar'=>$lastV]);
-   }
-   die();
-    }
-});
-
-
-
-
-
-
-
-
-
 require __DIR__.'/auth.php';

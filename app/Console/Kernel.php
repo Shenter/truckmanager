@@ -27,10 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->job(new EarnCash())->everyMinute();
         $schedule->job(new CalculateUsersCash())->everyMinute();
-   //     $schedule->job(new StocksPrices)->everyMinute();
     }
 
     /**
