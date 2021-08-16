@@ -12,10 +12,12 @@ Laravel8\Bootstrap
 - Дополнить тестами
 - Доделать окна просмотра водителей (drivers/{id}) и гаражей (garages/{id})
 #Установка:
-php artisan migrate\
-php artisan db:seed\
-Если символическая ссылка не работает, создать её:\
-create symlink from app/storage/characters to /public \
-Добавить обработчик заданий (USERNAME заменить на соответствующего пользователя): \
+- composer install 
+- php artisan migrate\
+- php artisan db:seed\
+- npm install & npm run dev
+- Если символическая ссылка не работает, создать её:\
+app/storage/characters -> /public \
+- Добавить обработчик заданий (USERNAME заменить на соответствующего пользователя): \
 \* *     * * *   USERNAME cd /var/www/html/trucks && php artisan schedule:run >> /dev/null 2>&1\
 ![Иллюстрация к проекту](https://github.com/Shenter/truckmanager/raw/master/trucks.png)
