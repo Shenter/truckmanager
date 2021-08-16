@@ -19,5 +19,5 @@ Laravel8\Bootstrap
 - Если символическая ссылка не работает, создать её:\
 app/storage/characters -> /public \
 - Добавить обработчик заданий (USERNAME заменить на соответствующего пользователя): \
-\* *     * * *   USERNAME cd /var/www/html/trucks && php artisan schedule:run >> /dev/null 2>&1\
+\* *     * * *   USERNAME cd /path/to/project && php artisan schedule:run >> /dev/null 2>&1\
 ![Иллюстрация к проекту](https://github.com/Shenter/truckmanager/raw/master/trucks.png)
