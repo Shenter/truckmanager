@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
@@ -35,12 +34,10 @@ class CalculateUsersCash implements ShouldQueue
     {
         $users = User::all();
         logger('count '. count($users));
+        $money=0;
         foreach ($users as $user) {
-            $money=0;
-            foreach ($user->stocks as $stock)
-            {
-                $money+=$stock->getLatestPrice();
-            }
+
+
             $money+=$user->money;
             DB::table('users_cash')->insert([
                 'created_at'=>date('Y-m-d H:i:s', time()),
